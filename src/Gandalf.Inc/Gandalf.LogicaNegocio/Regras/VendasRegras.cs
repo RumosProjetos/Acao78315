@@ -23,7 +23,7 @@ namespace Gandalf.LogicaNegocio.Regras
         }
 
 
-        private bool ValidarVenda()
+        public bool ValidarVenda()
         {
             var retorno = true;
 
@@ -45,6 +45,28 @@ namespace Gandalf.LogicaNegocio.Regras
                 throw new ArgumentException("Utilizador não selecionado");
             }
 
+            if (Venda.Itens.Count <= 0)
+            {
+                retorno = false;
+                throw new ArgumentException("Uma venda precisa ter pelo menos 1 ítem");
+            }
+
+            foreach (var item in Venda.Itens)
+            {
+                if(item.Quantidade <= 0)
+                {
+                    retorno = false;
+                    throw new ArgumentException("Um ítem de venda precisa ter pelo menos 1 unidade");
+                }
+            }
+
+            //Posso utilizar LINQ / LambdaExpression para facilitar
+            //if (Venda.Itens.Any(x => x.Quantidade <= 0))
+            //{
+            //    retorno = false;
+            //    throw new ArgumentException("Um ítem de venda precisa ter pelo menos 1 unidade");
+            //}
+
             foreach (var item in Venda.Itens)
             {
                 var quantidadeDisponivel = Estoque.Disponibilidade.FirstOrDefault(x => x.Key == item.Produto).Value;
@@ -62,16 +84,19 @@ namespace Gandalf.LogicaNegocio.Regras
         public void SalvarVenda()
         {
             var caminho = @"c:\temp\Vendas\"; //Deveria vir do App.Config
-            var arquivo = DateTime.Now.ToString("yyyyMMdd_HHmmss")+ ".txt";
+            var arquivo = DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".txt";
 
             if (ValidarVenda())
             {
-                if (!Directory.Exists(caminho))
-                {
-                    Directory.CreateDirectory(caminho);
-                }
+                Console.WriteLine(Venda.ToString());
 
-                File.WriteAllText($"{caminho}{arquivo}", Venda.ToString());
+
+                //if (!Directory.Exists(caminho))
+                //{
+                //    Directory.CreateDirectory(caminho);
+                //}
+
+                //File.WriteAllText($"{caminho}{arquivo}", Venda.ToString());
             }
         }
     }

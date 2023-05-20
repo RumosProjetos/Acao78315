@@ -16,7 +16,7 @@ namespace Gandalf.ConsoleApp
                 Nome = "24 polegadas",
                 Id = 1
             };
-
+            
             var playstation = new Produto
             {
                 Categoria = "Playstation",
@@ -29,7 +29,7 @@ namespace Gandalf.ConsoleApp
             {
                 Categoria = "Geladeira",
                 Marca = "LG",
-                Nome = "Geladeira FrostFree",
+                Nome = "Geladeira ",
                 Id = 3
             };
 
@@ -69,6 +69,8 @@ namespace Gandalf.ConsoleApp
             };
             regraVendas = new VendasRegras(venda2, estoque);
             regraVendas.SalvarVenda();
+
+            Console.ReadLine();
         }
     }
 }
